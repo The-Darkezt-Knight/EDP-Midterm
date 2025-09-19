@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+
+    <style>
+        body
+        {
+            background: #EEAECA;
+            background: linear-gradient(187deg, rgba(238, 174, 202, 1) 0%, rgba(148, 187, 233, 1) 100%);
+            padding: 0px;
+            margin: 0px;
+            width: 100%;
+            height: 100vh;
+            overflow-y: hidden;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .glass
+        {
+            background: rgba(255, 255, 255, 0.1); /* translucent */
+            border-radius: 16px;
+            backdrop-filter: blur(10px); /* blur the background */
+            -webkit-backdrop-filter: blur(10px); /* Safari support */
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+            color: white;
+        }
+
+        /*
+        #cover
+        {
+            height: 800px;
+            width: 90%;
+            display: none;
+            position: absolute;
+        }
+        */
+
+        #container
+        {
+            height: 800px;
+            width: 90%;
+            display: flex;
+            justify-content: center;
+        }
+
+        #input-form
+        {
+            height: 90%;
+            width: 60%;
+            border: none;
+            /*border-right: 2px solid rgba(255,255,255,0.1);*/
+            position: relative;
+        }
+
+        #input-bg-image
+        {
+            width: 95%;
+            height: 300px;
+            z-index: 2;
+            background-image: url(/resources/images/simple-background.jpg);
+            object-fit: cover;
+            background-size: cover;
+            background-repeat: no-repeat;
+            
+        }
+
+        #input-layout
+        {
+            border-radius: 10px;
+            padding: 20px;
+            height: 60%;
+            width: 90%;
+            z-index: 3;
+            position: absolute;
+            top: 200px;
+            left: 3px;
+        }
+
+        #input-layout input
+        {
+            width: 400px;
+            height: 30px;
+            border-radius: 10px;
+            border: none;
+            padding-left: 10px;
+            outline: none;
+        }
+
+        #btn-div
+        {
+            width: 200px;
+            height: 200px;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            position: absolute;
+            bottom: -120px;
+            outline: 5px solid #00C1CB;
+            border-radius: 100%;
+        }
+
+        #btn-div button
+        {
+            width: 150px;
+            height: 150px;
+            border-radius: 100%;
+            border: none;
+            background-color: #B6EBFF;
+        }
+
+        #btn-div button:hover
+        {
+            background-color: #168086;
+            color: white;
+        }
+
+        #semester-select
+        {
+            font-size: 18px;
+            outline: none;
+            border: none;
+            background-color: inherit;
+            width: 150px;
+        }
+
+        /*
+        #output-form
+        {
+            margin-left: 20px;
+            height: 79%;
+            width: 30%;
+        }
+        */
+
+        #result-div
+        {
+            width: 250px;
+            height: 200px;
+            position: absolute;
+            top: 110px;
+            right: 80px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: gray
+        }
+    </style>
+</head>
+<body>
+
+    <div id="container">
+        <div id="input-form">
+            <div id="input-bg-image"></div>
+            <div class="glass" id="input-layout">
+                <div class="glass" style="display: flex">
+                    <select name="semester" id="semester-select">
+                        <option value="Semester" selected disabled hidden>Semester</option>
+                        <option value="1">1st Semester</option>
+                        <option value="2">2nd Semester</option>
+                    </select>
+                </div>
+                <div class="glass" id="result-div" style="display:fkex; flex-direction: column; justify-content: center; align-items: center">
+                    <h1>GWA goes here</h1>
+                    <p style="font-size: 22px">Remarks go here</p>
+                </div>
+                <div class="glass" style="width: 50%; height: 70%; padding: 20px; margin-top: 30px;display: flex; flex-direction: column; gap: 30px;">
+                    <input type="text" id="Prelim" placeholder="Prelim">
+                    <input type="text" id="Midterm" placeholder="Midterm">
+                    <input type="text" id="Pre-finals" placeholder="Pre-finals">
+                    <input type="text" id="Finals" placeholder="Finals">
+                    <div id="btn-div">
+                        <button id="calc-btn">Calculate</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="output-form">
+            <!--Output components here-->
+        </div>
+    </div>
+
+    <script>
+
+        $(document).ready(function() {
+            $("#calc-btn").click(function() {
+                var prelim = $("#Prelim").val() * .20;
+                var midterm = $("#Midterm").val() *.20;
+                var prefinals = $("#Pre-finals").val() * .20;
+                var finals = $("#Finals").val() * .40;
+
+                var gwa = prelim + midterm + prefinals + finals;
+
+                $("#result-div").hide();
+                if(gwa < 75)
+                    {
+                        $("p").css("color","#c1121f")
+                        $("p").text("FAILED")
+                    }else if(gwa >= 75)
+                    {
+                        $("p").css("color","#9ef01a")
+                        $("p").text("PASSED")
+                    }
+                setTimeout(function()
+                {
+                    $("h1").css("color","white")
+                    $("h1").text(gwa);
+                    $("#result-div").show();
+                }, 1000)
+            });
+        });
+
+        
+    </script>
+</body>
+</html>
