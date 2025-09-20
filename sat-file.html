@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GWA Calculator</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <style>
+        body
+        {
+            width: 100%;
+            height: 100vh;
+            padding: 0%;
+            margin: 0%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            align-items: center;
+            font-family: Arial, sans-serif;
+            color: #333;
+            font-size: 18px;
+        }
+
+        #container
+        {
+            z-index: 0;
+            width: 60%;
+            height: 500px;
+            border-radius: 10px;
+            display: flex;
+            position: relative;
+            justify-content: center;
+        }
+
+        #header
+        {
+            width: 100%;
+            height: 40%;
+            font-size: 24px;
+            position: absolute;
+            transform: translateY(-30%);
+            border: 2px solid #e2e8f0;
+            background-image: url(/Midterm/resources/rm222-mind-16.jpg);
+            background-size: cover;
+            background-repeat: no-repeat;
+            border-radius: 10px;
+        }
+
+        #input-group
+        {   
+            position: absolute;
+            z-index: 1;
+            width: 95%;
+            height: 80%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-bottom: 1px solid #e2e8f0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            background: white;
+            transform: translateY(20%);
+        }
+
+        #input-form
+        {
+            width: 50%;
+            height: 90%;
+            border-right: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
+            align-items: center;
+        }
+
+        #input-form input
+        {
+            width: 70%;
+            height: 20px;
+            margin: 10px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: border-color 0.3s, box-shadow 0.3s;
+        }
+
+        #input-form input:focus
+        {
+            border-color: #3182ce;
+            box-shadow: 0 4px 8px rgba(49, 130, 206, 0.2);
+            outline: none;
+        }
+
+        #calculate-btn
+        {
+            width: 290px;
+            height: 50px;
+            margin-top: 20px;
+            background-color: #3182ce;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(49, 130, 206, 0.2);
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        #calculate-btn:hover
+        {
+            background-color: #225ea8;
+            box-shadow: 0 6px 12px rgba(34, 94, 168, 0.3);
+        }
+
+        #result-group
+        {
+            width: 50%;
+            height: 90%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #result 
+        {
+            width: 150px;
+            height: 150px;
+            border-radius: 5px;
+            font-size: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            background-color: #f9f9f9;
+        }
+
+
+    </style>
+</head>
+<body>
+    <div id="container">
+        <div id="header"></div>
+        <div id="input-group">
+
+            <div id="input-form">
+                <input type="text" placeholder="Prelim" id="Prelim">
+                <input type="text" placeholder="Midterm" id="Midterm">
+                <input type="text" placeholder="Prefinals" id="Prefinals">
+                <input type="text" placeholder="Finals" id="Finals">
+                <button id="calculate-btn">Calculate</button>
+            </div>
+
+            <div id="result-group">
+                <div id="result">
+                    <h1 style="font-size: 52px">GWA</h1>
+                    <p style="font-size: 22px; transform: translateY(-30px);">Remarks</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#calculate-btn").click(function() {
+                var prelim = $("#Prelim").val() * .20;
+                var midterm = $("#Midterm").val() *.20;
+                var prefinals = $("#Prefinals").val() * .20;
+                var finals = $("#Finals").val() * .40;
+
+                var gwa = prelim + midterm + prefinals + finals;
+
+                $("#result").hide();
+                if(gwa > 100 || gwa < 0)
+                {
+                    alert("Invalid Input");
+                    window.location.reload();
+                }
+                if(gwa < 75)
+                    {
+                        $("p").css("color","#c1121f")
+                        $("p").text("FAILED")
+                    }else if(gwa >= 75)
+                    {
+                        $("p").css("color","#9ef01a")
+                        $("p").text("PASSED")
+                    }
+                setTimeout(function()
+                {
+                    $("h1").css("color","#3182ce")
+                    $("h1").text(gwa);
+                    $("#result").show();
+                }, 1000)
+            });
+
+        });
+    </script>
+
+</body>
+</html>
