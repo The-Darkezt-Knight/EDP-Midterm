@@ -42,7 +42,7 @@
             position: absolute;
             transform: translateY(-30%);
             border: 2px solid #e2e8f0;
-            background-image: url(/Midterm/resources/rm222-mind-16.jpg);
+            background-image: url(rm222-mind-16.jpg);
             background-size: cover;
             background-repeat: no-repeat;
             border-radius: 10px;
@@ -184,6 +184,15 @@
             margin: 5px 0 0;
             font-size: 18px;
         }
+        #clear-input-field{
+            position: relative;
+            top: 10px;
+            right: 105px;
+            width: 70px;
+            height: 30px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
     </style>
 </head>
 <body>
@@ -194,11 +203,12 @@
         <div id="input-group">
 
             <div id="input-form">
-                <input type="text" placeholder="Prelim" id="Prelim">
-                <input type="text" placeholder="Midterm" id="Midterm">
-                <input type="text" placeholder="Prefinals" id="Prefinals">
-                <input type="text" placeholder="Finals" id="Finals">
+                <input type="text" class="input-field" placeholder="Prelim" id="Prelim">
+                <input type="text" class="input-field" placeholder="Midterm" id="Midterm">
+                <input type="text" class="input-field" placeholder="Prefinals" id="Prefinals">
+                <input type="text" class="input-field" placeholder="Finals" id="Finals">
                 <button id="calculate-btn">Calculate</button>
+                <button id="clear-input-field">Clear</button>
             </div>
 
             <div id="result-group">
@@ -251,6 +261,24 @@
                 $("#gwa-value").text(gwa.toFixed(2));
                 $("#result").fadeIn();
             });
+
+            $("#clear-input-field").click(function(){
+                $(".input-field").val("")
+                $("#gwa-value").text("GWA")
+                
+                
+                 $("#gwa-remarks").css("color", "").text("Remarks");
+
+                const progressCircle = document.querySelector('.progress');
+                const radius = 70;
+                const circumference = 2 * Math.PI * radius;
+
+                progressCircle.style.transition = "stroke-dashoffset 1s ease"; // animate back
+                progressCircle.style.strokeDashoffset = circumference; // reset to empty
+                //progressCircle.style.stroke = "#ccc"; // reset color (optional)
+
+            });
+            
         });
     </script>
 
