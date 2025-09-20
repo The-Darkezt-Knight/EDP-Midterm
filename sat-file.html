@@ -7,8 +7,7 @@
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
     <style>
-        body
-        {
+        body {
             width: 100%;
             height: 100vh;
             padding: 0%;
@@ -23,8 +22,7 @@
             font-size: 18px;
         }
 
-        #container
-        {
+        #container {
             z-index: 0;
             width: 60%;
             height: 500px;
@@ -34,8 +32,7 @@
             justify-content: center;
         }
 
-        #header
-        {
+        #header {
             width: 100%;
             height: 40%;
             font-size: 24px;
@@ -48,8 +45,7 @@
             border-radius: 10px;
         }
 
-        #input-group
-        {   
+        #input-group {
             position: absolute;
             z-index: 1;
             width: 95%;
@@ -64,8 +60,7 @@
             transform: translateY(20%);
         }
 
-        #input-form
-        {
+        #input-form {
             width: 50%;
             height: 90%;
             border-right: 1px solid #e2e8f0;
@@ -75,8 +70,7 @@
             align-items: center;
         }
 
-        #input-form input
-        {
+        #input-form input {
             width: 70%;
             height: 20px;
             margin: 10px;
@@ -88,19 +82,17 @@
             transition: border-color 0.3s, box-shadow 0.3s;
         }
 
-        #input-form input:focus
-        {
+        #input-form input:focus {
             border-color: #3182ce;
             box-shadow: 0 4px 8px rgba(49, 130, 206, 0.2);
             outline: none;
         }
 
-        #calculate-btn
-        {
+        #calculate-btn {
             width: 290px;
             height: 50px;
             margin-top: 20px;
-            background-color: #3182ce;
+            background: linear-gradient(135deg, #3182ce 0%, #63b3ed 100%);
             color: white;
             border: none;
             border-radius: 10px;
@@ -110,14 +102,12 @@
             transition: background-color 0.3s, box-shadow 0.3s;
         }
 
-        #calculate-btn:hover
-        {
+        #calculate-btn:hover {
             background-color: #225ea8;
             box-shadow: 0 6px 12px rgba(34, 94, 168, 0.3);
         }
 
-        #result-group
-        {
+        #result-group {
             width: 50%;
             height: 90%;
             display: flex;
@@ -125,21 +115,61 @@
             align-items: center;
         }
 
-        #result 
-        {
+        #result {
             width: 150px;
             height: 150px;
-            border-radius: 5px;
+            position: relative;
             font-size: 20px;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            background-color: #f9f9f9;
         }
 
+        .progress-circle {
+            width: 150px;
+            height: 150px;
+            transform: rotate(-90deg);
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
 
+        .progress-circle circle {
+            fill: none;
+            stroke-width: 12;
+            stroke-linecap: round;
+        }
+
+        .progress-bg {
+            stroke: #eee;
+        }
+
+        .progress {
+            stroke: green;
+            stroke-dasharray: 440;
+            stroke-dashoffset: 440;
+            transition: stroke 0.3s, stroke-dashoffset 0.5s;
+        }
+
+        .gwa-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            text-align: center;
+        }
+
+        .gwa-content h1 {
+            margin: 0;
+            font-size: 32px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .gwa-content p {
+            margin: 5px 0 0;
+            font-size: 18px;
+        }
     </style>
 </head>
 <body>
@@ -157,46 +187,54 @@
 
             <div id="result-group">
                 <div id="result">
-                    <h1 style="font-size: 52px">GWA</h1>
-                    <p style="font-size: 22px; transform: translateY(-30px);">Remarks</p>
+                    <svg class="progress-circle" viewBox="0 0 150 150">
+                        <circle class="progress-bg" cx="75" cy="75" r="70"></circle>
+                        <circle class="progress" cx="75" cy="75" r="70"></circle>
+                    </svg>
+                    <div class="gwa-content">
+                        <h1 id="gwa-value">GWA</h1>
+                        <p id="gwa-remarks">Remarks</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $("#calculate-btn").click(function() {
-                var prelim = $("#Prelim").val() * .20;
-                var midterm = $("#Midterm").val() *.20;
-                var prefinals = $("#Prefinals").val() * .20;
-                var finals = $("#Finals").val() * .40;
+        $(document).ready(function () {
+            $("#calculate-btn").click(function () {
+                var prelim = parseFloat($("#Prelim").val()) * 0.20;
+                var midterm = parseFloat($("#Midterm").val()) * 0.20;
+                var prefinals = parseFloat($("#Prefinals").val()) * 0.20;
+                var finals = parseFloat($("#Finals").val()) * 0.40;
 
                 var gwa = prelim + midterm + prefinals + finals;
 
-                $("#result").hide();
-                if(gwa > 100 || gwa < 0)
-                {
+                if (isNaN(gwa) || gwa > 100 || gwa < 0) {
                     alert("Invalid Input");
                     window.location.reload();
+                    return;
                 }
-                if(gwa < 75)
-                    {
-                        $("p").css("color","#c1121f")
-                        $("p").text("FAILED")
-                    }else if(gwa >= 75)
-                    {
-                        $("p").css("color","#9ef01a")
-                        $("p").text("PASSED")
-                    }
-                setTimeout(function()
-                {
-                    $("h1").css("color","#3182ce")
-                    $("h1").text(gwa);
-                    $("#result").show();
-                }, 1000)
-            });
 
+                const progressCircle = document.querySelector('.progress');
+                const radius = 70;
+                const circumference = 2 * Math.PI * radius;
+                const offset = circumference - (gwa / 100) * circumference;
+
+                progressCircle.style.strokeDasharray = `${circumference}`;
+                progressCircle.style.strokeDashoffset = offset;
+
+                if (gwa <= 75) {
+                    progressCircle.style.stroke = 'red';
+                    $("#gwa-remarks").css("color", "#c1121f").text("FAILED");
+                } else {
+                    progressCircle.style.stroke = 'green';
+                    $("#gwa-remarks").css("color", "#2d6a4f").text("PASSED");
+                }
+
+                $("#gwa-value").text(gwa.toFixed(2));
+                $("#result").fadeIn();
+            });
         });
     </script>
 
