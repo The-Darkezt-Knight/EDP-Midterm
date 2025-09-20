@@ -169,8 +169,8 @@
             <div class="glass" id="input-layout">
                 <div class="glass" style="display: flex">
                     <select name="semester" id="semester-select">
-                        <option value="Semester" selected disabled hidden>Semester</option>
                         <option value="1">1st Semester</option>
+                        <option value="Semester" selected disabled hidden>Semester</option>
                         <option value="2">2nd Semester</option>
                     </select>
                 </div>
@@ -223,7 +223,17 @@
                     $("#result-div").show();
                 }, 1000)
             });
+
+            $("#semester-select").change(function () {
+                $("#Prelim, #Midterm, #Pre-finals, #Finals").val("");
+
+                $("#result-div h1").text("GWA goes here");
+                $("#result-div p").text("Remarks go here");
+            });
         });
+
+        
+
 
         
     </script>
